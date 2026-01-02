@@ -7,79 +7,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCR Randomizer</title>
     <style>
-        /* Adjust the scale here (1.2 = 120%, 1.5 = 150%, etc.) */
-        :root {
-            --app-scale: 1.7; 
-            --base-width: 392px;
-            --base-height: 620px;
-        }
-
-        body { 
-            font-family: 'Ubuntu', sans-serif; 
-            text-align: center; 
-            background-color: #10203B; 
-            margin: 0;
-            padding: 20px;
-        }
+    :root {
+        /* Adjust this to change the size on Desktop */
+        --app-scale: 1.7; 
         
-        .container { 
-            max-width: 1300px; 
-            margin: auto; 
-            padding: 20px; 
-            background: #5C6971; 
-            border-radius: 12px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        /* The exact internal dimensions of the App Lab screen */
+        --internal-width: 320px;
+        --internal-height: 450px;
+        
+        /* The offsets required to hide the black bezels */
+        --offset-x: -36px;
+        --offset-y: -37px;
+    }
 
-        .title-image {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-
-      
     #app-wrapper {
-        /* We define the size of the "Window" we want to see (the app screen) */
-        width: calc(320px * var(--app-scale)); 
-        height: calc(450px * var(--app-scale));
+        /* The container stays perfectly sized to the scaled app */
+        width: calc(var(--internal-width) * var(--app-scale));
+        height: calc(var(--internal-height) * var(--app-scale));
         margin: 20px auto;
-        overflow: hidden; /* This cuts off the bezels */
+        overflow: hidden;
         position: relative;
         border: 4px solid #1C1C1C;
-        border-radius: 8px;
+        border-radius: 15px;
+        background: #000;
     }
 
     #app-wrapper iframe {
-        /* The iframe stays at its full 'phone' size */
+        /* The raw size of the Code.org iframe with bezels */
         width: 392px;
         height: 620px;
         border: none;
         position: absolute;
 
-        /* Move the iframe UP and LEFT to hide the black edges */
-        top: calc(-37px * var(--app-scale)); 
-        left: calc(-36px * var(--app-scale));
-    
+        /* This is the fix: The shift now scales perfectly with the app */
+        top: calc(var(--offset-y) * var(--app-scale));
+        left: calc(var(--offset-x) * var(--app-scale));
+        
         transform: scale(var(--app-scale));
         transform-origin: top left;
     }
 
-        /* If the screen is smaller than the scaled app, reset scale to 1.0 */
-        @media (max-width: 500px) {
-            :root {
-                --app-scale: 1.0;
-            }
-            .container {
-                padding: 10px;
-            }
+    /* Mobile Responsiveness */
+    @media (max-width: 600px) {
+        :root {
+            /* Shrinks the app so it doesn't bleed off the edge of a phone */
+            --app-scale: 0.85; 
         }
-
-        a { text-decoration: none; }
-    </style>
+    }
+</style>
 </head>
 <body>
     <div class="container">
-        <img style="height:100px;" src="assets/randomizerlogostatic.png" alt="SCR Randomizer" class="title-image">
+        <img style="scale:0.5;" src="assets/randomizerlogostatic.png" alt="SCR Randomizer" class="title-image">
         
         <p style="color: #1C1C1C; font-weight: bold;">
             Welcome! View the repository here: 
