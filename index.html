@@ -10,66 +10,78 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-        /* FLUID SCALE */
-        --app-scale: clamp(1.5, 2.5vw + 0.3, 2.7); 
-        
-        --internal-width: 320px;
-        --internal-height: 450px;
-        --raw-width: 392px;
-        --raw-height: 620px;
-
-        /* DEFAULT OFFSETS (PC/Desktop) */
-        --shift-x: 0%;    
-        --shift-y: -2.5%; 
-    }
-
-    /* --- MOBILE OFFSET ADJUSTMENT --- */
-    @media (max-width: 600px) {
         :root {
-            --shift-x: 0%;   
-            --shift-y: 15%;  
+            /* 1. INITIAL SCALE SETTINGS */
+            /* To change the "Initial" scale:
+               - Increase 0.8 to make it larger on small screens.
+               - Increase 1.7 to make it larger on big screens.
+               - Change 80cqw to 90cqw to make it grow faster. */
+            --app-scale: clamp(0.75, 85cqw / 320, 1.7); 
+            
+            --internal-width: 320px;
+            --internal-height: 450px;
+            --raw-width: 392px;
+            --raw-height: 620px;
+
+            /* Default PC Offsets */
+            --shift-x: 0%;    
+            --shift-y: -2.5%; 
         }
-    }
 
-    body { 
-        font-family: 'Ubuntu', sans-serif; 
-        text-align: center; 
-        background-color: #10203B; 
-        margin: 0; padding: 20px; color: #FFFFFF;
-    }
-    
-    .container { 
-        max-width: 900px; margin: auto; padding: 30px 20px; 
-        background: #1C1C1C; border-radius: 15px; 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
+        body { 
+            font-family: 'Ubuntu', sans-serif; 
+            text-align: center; 
+            background-color: #10203B; 
+            margin: 0; padding: 5px; color: #FFFFFF;
+        }
+        
+        /* The container now acts as the "anchor" for scaling */
+        .container { 
+            container-type: inline-size; /* Magic line: enables container queries */
+            max-width: 900px; 
+            margin: auto; 
+            padding: 30px 20px; 
+            background: #5C6971; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-    #app-wrapper {
-        width: calc(var(--internal-width) * var(--app-scale));
-        height: calc(var(--internal-height) * var(--app-scale));
-        max-width: calc(100vw - 40px);
-        margin: 25px auto;
-        overflow: hidden;
-        position: relative;
-        border: 4px solid #1C1C1C;
-        border-radius: 12px;
-        background: #5C6971;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        /* 2. MOBILE OFFSET ADJUSTMENT */
+        @media (max-width: 600px) {
+            :root {
+                --shift-x: 0%;    
+                --shift-y: -4.5%;   
+            }
+        }
 
-    #app-wrapper iframe {
-        width: var(--raw-width);
-        height: var(--raw-height);
-        border: none;
-        flex-shrink: 0;
-        /* The translate uses the variables defined in :root or the @media query */
-        transform: translate(var(--shift-x), var(--shift-y)) scale(var(--app-scale));
-        transform-origin: center center;
-    }
-</style>
+        #app-wrapper {
+            /* Scale is now calculated based on the .container width (cqw) */
+            width: calc(var(--internal-width) * var(--app-scale));
+            height: calc(var(--internal-height) * var(--app-scale));
+            max-width: 100%;
+            margin: 25px auto;
+            overflow: hidden;
+            position: relative;
+            border: 4px solid #1C1C1C;
+            border-radius: 12px;
+            background: #5C6971;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #app-wrapper iframe {
+            width: var(--raw-width);
+            height: var(--raw-height);
+            border: none;
+            flex-shrink: 0;
+            transform: translate(var(--shift-x), var(--shift-y)) scale(var(--app-scale));
+            transform-origin: center center;
+        }
+
+        .title-image { max-width: 50%; height: auto; margin-bottom: 5px; }
+        .repo-link a { color: #2F8CF9; text-decoration: none; font-weight: bold; }
+    </style>
 </head>
 <body>
 
