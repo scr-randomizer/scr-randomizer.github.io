@@ -1,4 +1,4 @@
-# scr-randomizer
+# SCR Randomizer
 ![SCR Randomizer](assets/scrrandomizerlogo-anifc.gif)
 ➡️➡️➡️USE THIS LINK TO ACCESS THE SITE!
 https://scr-randomizer.github.io/home
