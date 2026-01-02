@@ -10,83 +10,72 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-        :root {
-            /* Base dimensions for the App Lab screen area */
-            --internal-width: 320px;
-            --internal-height: 450px;
-            --raw-width: 392px;
-            --raw-height: 620px;
+    :root {
+        --internal-width: 320px;
+        --internal-height: 450px;
+        --raw-width: 392px;
+        --raw-height: 620px;
+    }
 
-            /* Default PC Offset */
-            --shift-x: 0%;    
-            --shift-y: -2.5%; 
-        }
+    body { 
+        font-family: 'Ubuntu', sans-serif; 
+        text-align: center; 
+        background-color: #10203B; 
+        margin: 0; padding: 20px; color: #FFFFFF;
+    }
 
-        body { 
-            font-family: 'Ubuntu', sans-serif; 
-            text-align: center; 
-            background-color: #10203B; 
-            margin: 0; padding: 20px; color: #FFFFFF;
-        }
+    .container { 
+        max-width: 900px; 
+        margin: auto; 
+        padding: 30px 20px; 
+        background: #1C1C1C; 
+        border-radius: 15px; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        container-type: size; /* Enables the snapping scale */
+    }
+
+    /* --- THE REFINED WRAPPER --- */
+    #app-wrapper {
+        /* This is the grey box dimensions */
+        width: 600px; 
+        max-width: 100%;
+        aspect-ratio: 320 / 450;
         
-        .container { 
-            max-width: 900px; 
-            margin: auto; 
-            padding: 30px 20px; 
-            background: #1C1C1C; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        margin: 25px auto;
+        overflow: hidden; 
+        position: relative;
+        border: 4px solid #5C6971;
+        border-radius: 12px;
+        background: #000;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
 
-        .title-image { width: 50%; height: auto; margin-bottom: 15px; }
-        .repo-link a { color: #2F8CF9; text-decoration: none; font-weight: bold; }
+        /* FLEXBOX: Forces the iframe into the dead center */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        /* --- THE MASTER WRAPPER --- */
-        #app-wrapper {
-            /* 1. Define the grey boundary size */
-            /* This will be 600px wide on PC, but shrink to 100% on phones */
-            width: 600px; 
-            max-width: 100%;
-            aspect-ratio: 320 / 450; /* Keeps the proportions perfect */
-            
-            margin: 25px auto;
-            overflow: hidden; 
-            position: relative;
-            border: 4px solid #1C1C1C;
-            border-radius: 12px;
-            background: #5C6971;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    /* --- THE CENTERED IFRAME --- */
+    #app-wrapper iframe {
+        /* Use the snapping scale logic */
+        --dynamic-scale: calc(100cqw / var(--internal-width));
+        
+        width: var(--raw-width);
+        height: var(--raw-height);
+        border: none;
+        flex-shrink: 0;
 
-            /* 2. Make this a container for query math */
-            container-type: size; 
-            
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        /* SCALE: Applied from the center */
+        transform: scale(var(--dynamic-scale));
+        transform-origin: center center;
 
-        /* --- THE SNAPPING IFRAME --- */
-        #app-wrapper iframe {
-            width: var(--raw-width);
-            height: var(--raw-height);
-            border: none;
-            flex-shrink: 0;
+        /* OFFSET: The 'Nudge' to hide the footer. 
+           Multiplying by the scale ensures it stays perfectly aligned on mobile. */
+        margin-top: calc(-18px * var(--dynamic-scale));
+    }
 
-            /* 3. The Math: (Current Wrapper Width / Base Internal Width) */
-            /* This ensures the iframe scale is always exactly matched to the grey box */
-            --dynamic-scale: calc(100cqw / var(--internal-width));
-            
-            transform: translate(var(--shift-x), var(--shift-y)) scale(var(--dynamic-scale));
-            transform-origin: center center;
-        }
-
-        /* MOBILE OVERRIDES */
-        @media (max-width: 600px) {
-            :root {
-                --shift-y: -4%; /* Nudge up slightly more on mobile to hide bezel */
-            }
-        }
-    </style>
+    .title-image { width: 50%; height: auto; margin-bottom: 15px; }
+</style>
 </head>
 <body>
 
