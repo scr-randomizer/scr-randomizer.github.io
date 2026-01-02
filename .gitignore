@@ -1,0 +1,12 @@
+# OS Metadata (System files you don't want in your repo)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Code Editor settings
+.vscode/
+.idea/
+*.swp
+
+# Temporary logs
+*.log
