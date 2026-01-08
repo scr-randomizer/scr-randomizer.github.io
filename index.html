@@ -9,89 +9,91 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-        --internal-width: 320px;
-        --internal-height: 450px;
-        --raw-width: 392px;
-        --raw-height: 620px;
-    }
+    <style>
+        :root {
+            /* These are the full dimensions of the Code.org embed with its frame */
+            --embed-raw-width: 392px;
+            --embed-raw-height: 620px;
+        }
 
-    body { 
-        font-family: 'Ubuntu', sans-serif; 
-        text-align: center; 
-        background-color: #10203B; 
-        margin: 0; padding: 20px; color: #FFFFFF;
-    }
-
-    .container { 
-        max-width: 900px; 
-        margin: auto; 
-        padding: 30px 20px; 
-        background: #1C1C1C; 
-        border-radius: 15px; 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        container-type: size; /* Enables the snapping scale */
-    }
-
-    /* --- THE REFINED WRAPPER --- */
-    #app-wrapper {
-        /* This is the grey box dimensions */
-        width: 600px; 
-        max-width: 100%;
-        aspect-ratio: 320 / 450;
+        body { 
+            font-family: 'Ubuntu', sans-serif; 
+            text-align: center; 
+            background-color: #10203B; 
+            margin: 0; padding: 20px; color: #FFFFFF;
+        }
         
-        margin: 25px auto;
-        overflow: hidden; 
-        position: relative;
-        border: 4px solid #5C6971;
-        border-radius: 12px;
-        background: #000;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        .container { 
+            /* Enable container queries to track this box's width */
+            container-type: inline-size; 
+            max-width: 900px; 
+            margin: auto; 
+            padding: 30px 20px; 
+            background: #5C6971; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            
+            /* Center the content inside the container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        /* FLEXBOX: Forces the iframe into the dead center */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        .title-image { 
+            width: 50%; 
+            height: auto; 
+            margin-bottom: 15px; 
+        }
 
-    /* --- THE CENTERED IFRAME --- */
-    #app-wrapper iframe {
-        /* Use the snapping scale logic */
-        --dynamic-scale: calc(100cqw / var(--internal-width));
-        
-        width: var(--raw-width);
-        height: var(--raw-height);
-        border: none;
-        flex-shrink: 0;
+        .repo-link a { 
+            color: #FFFFFF; 
+            text-decoration: none; 
+            font-weight: bold; 
+        }
 
-        /* SCALE: Applied from the center */
-        transform: scale(var(--dynamic-scale));
-        transform-origin: center center;
+        /* --- THE FLUID EMBED CONTENT --- */
+        .embed-content {
+            margin: 25px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            /* Ensure there is space for the scaled content */
+            min-height: calc(var(--embed-raw-height) * 0.5); 
+        }
 
-        /* OFFSET: The 'Nudge' to hide the footer. 
-           Multiplying by the scale ensures it stays perfectly aligned on mobile. */
-        margin-top: calc(-18px * var(--dynamic-scale));
-    }
+        iframe {
+            width: var(--embed-raw-width);
+            height: var(--embed-raw-height);
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
 
-    .title-image { width: 50%; height: auto; margin-bottom: 15px; }
-</style>
+            /* DYNAMIC SCALE: 
+               Takes 90% of the current container width (100cqw) 
+               and divides it by the iframe's original width to get the scale ratio. */
+            --dynamic-scale: clamp(0.5, (90cqw / var(--embed-raw-width)), 1.5);
+            
+            transform: scale(var(--dynamic-scale));
+            transform-origin: center center;
+        }
+
+    </style>
 </head>
 <body>
 
     <div class="container">
-        <img src="assets/randomizerlogostatic.png" alt="SCR Randomizer" class="title-image" width="50%" height="50%">
+        <img src="assets/randomizerlogostatic.png" alt="SCR Randomizer" class="title-image">
         
-        <p class="repo-link" styles="font-size: 18px">
-            Welcome! <b>Click the screen to start.</b><br>View the repository here:
-            <a href="https://github.com/scr-randomizer/home/" style="color: #2F8CF9">github.com/scr-randomizer/home/</a>
+        <p class="repo-link">
+            Welcome! <b text-color="#2F8CF9">Click the screen to start.</b> <br> Visit the repository: <a href="https://github.com/scr-randomizer/home/">https://github.com/scr-randomizer/home/</a>
         </p>
         
-        <div id="app-wrapper">
+        <div class="embed-content">
             <iframe src="https://studio.code.org/projects/applab/oX2jWo6MP1MyG8B7RbwRQEXkhEfASOZKkOQTkTyByxR/embed?nosource"></iframe>
         </div>
 
-        <div class="footer-logo">
+        <div style="margin-top: 10px;">
             <a href='https://ko-fi.com/R6R71RH2ZF' target='_blank'>
                 <img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' border='0' alt='Buy Me a Coffee' />
             </a>
