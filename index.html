@@ -16,42 +16,67 @@
             --raw-height: 620px;
         }
 
-        body { 
+        .header { 
             font-family: 'Ubuntu', sans-serif; 
             text-align: center; 
-            background-color: #10203B; /* Dark Blue Outer */
-            margin: 0; 
-            padding: 20px; 
+            background: #10203B;
+            margin: 0px auto; 
+            padding: 10px; 
             color: #FFFFFF;
         }
 
-        .container { 
+        body { 
+            font-family: 'Ubuntu', sans-serif; 
+            text-align: center; 
+            background-color: #5C6971;
+            margin: 0; 
+            color: #FFFFFF;
+        }
+
+        .containerhead { 
             max-width: 900px; 
             margin: auto; 
-            padding: 40px 20px; 
-            background: #1C1C1C; /* Unified Gray/Black Inner */
-            border-radius: 20px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            padding: 20px 20px; 
+            background: #1C1C1C; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 18px rgba(0,0,0,0.4);
             
-            /* Enable container queries based on THIS width */
+            /* enable container queries based on this width */
             container-type: inline-size; 
             
-            /* Keep everything stacked and centered */
+            /* stacking centering */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .containerbody { 
+            max-width: 900px; 
+            margin: 20px auto; 
+            padding: 40px 20px; 
+            background: #5C6971; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.0);
+            
+            /* Enable container queries based on this width */
+            container-type: inline-size; 
+            
+            /* stacking centering */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* --- THE FLUID APP BUFFER --- */
+        /* app buffer doohickey v1 */
         #app-buffer {
-            /* Logic: Scale based on 95% of the container width vs raw iframe width */
-            --dynamic-scale: clamp(0.4, (95cqw / var(--raw-width)), 1.9);
+            /* scale based on 115% of the container width vs raw iframe width */
+            --dynamic-scale: clamp(0.4, (115cqw / var(--raw-width)), 1.9);
             
-            /* Force the buffer to occupy the EXACT physical space of the scaled app */
+            /* occupy the exact physical space of the scaled app */
             width: calc(var(--raw-width) * var(--dynamic-scale));
             height: calc(var(--raw-height) * var(--dynamic-scale));
             
-            margin: 30px auto;
+            margin: 0px auto;
             position: relative;
             display: flex;
             justify-content: center;
@@ -72,36 +97,39 @@
             transform-origin: center center;
         }
 
-        .title-image { width: 50%; height: auto; margin-bottom: 20px; }
+        .title-image { width: 50%; height: auto; margin-bottom: 10px; }
         
         .repo-link { font-size: 18px; line-height: 1.6; margin: 0; }
         .repo-link b { color: #FFFFFF; }
         .repo-link a { color: #2F8CF9; text-decoration: none; }
         .repo-link a:hover { text-decoration: underline; }
 
-        .footer-logo { margin-top: 10px; }
+        .footer-logo { margin-top: 20px; }
     </style>
 </head>
 <body>
+    <header class="header">
+        <div class="containerhead">
+            <img src="assets/randomizerlogostatic.png" alt="SCR Randomizer" class="title-image">
+        
+            <p class="repo-link">
+                Welcome! <b>Click the screen to start.</b><br>
+                View the repository here: 
+                <a href="https://github.com/scr-randomizer/home/">github.com/scr-randomizer/home/</a>
+            </p>
+        </div>
+    </header>
 
-    <div class="container">
-        <img src="assets/randomizerlogostatic.png" alt="SCR Randomizer" class="title-image">
-        
-        <p class="repo-link">
-            Welcome! <b>Click the screen to start.</b><br>
-            View the repository here: 
-            <a href="https://github.com/scr-randomizer/home/">github.com/scr-randomizer/home/</a>
-        </p>
-        
+    <div class="containerbody">
         <div id="app-buffer">
             <iframe src="https://studio.code.org/projects/applab/oX2jWo6MP1MyG8B7RbwRQEXkhEfASOZKkOQTkTyByxR/embed?nosource"></iframe>
         </div>
 
         <div class="footer-logo">
             <a href='https://ko-fi.com/R6R71RH2ZF' target='_blank'>
-                <img height='36' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' alt='Buy Me a Coffee' />
+                <img height='44px' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' alt='Buy Me a Coffee' />
             </a>
-        </div>
+        </div>    
     </div>
 
 </body>
