@@ -1,5 +1,5 @@
 ![SCR Randomizer](assets/scrrandomizerlogo-anifc.gif)
-### ⬇️⬇️⬇️USE THIS LINK TO ACCESS THE SITE!⬇️⬇️⬇️
+## ⬇️⬇️⬇️USE THIS LINK TO ACCESS THE SITE!⬇️⬇️⬇️
 ### https://scr-randomizer.github.io/
 ### ‼️VOTE FOR THE NEXT SCR RANDOMIZER UPDATE HERE‼️[VOTE HERE](https://ko-fi.com/soultropolis)
 
