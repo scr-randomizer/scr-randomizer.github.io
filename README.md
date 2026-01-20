@@ -6,7 +6,7 @@ The SCR Randomizer gives drivers in the Roblox railway network simulation game, 
 
 Each randomization feature filters down all of the operator, train, and route data to provide the correct selection of operator, train, and route. The filters ensure that these combination of options given by the randomizers are selectable in the actual game.
 
-Links to the official 'SCR Hub Site' ([stepfordcountryrailway.co.uk](stepfordcountryrailway.co.uk)), which provides more information and statistics about the SCR network and its current services and activity across its servers, are provided for convenience.
+Links to the official [SCR Hub Site](https://stepfordcountryrailway.co.uk), which provides more information and statistics about the SCR network and its current services and activity across its servers, are provided for convenience.
 
 The References page details all of the online resources used in creating this program.
 
