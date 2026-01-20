@@ -12,7 +12,6 @@ The References page details all of the online resources used in creating this pr
 
 While you may encounter bugs or issues in the program, as it is relatively new, please suggest any improvements and bug reports on the issues page of this repository.
 
-### Licensing
 This project's assets (HTML, CSS, and Images) are licensed under 
 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
 
