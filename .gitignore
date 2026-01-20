@@ -1,4 +1,4 @@
-# OS Metadata (System files you don't want in your repo)
+# OS Metadata
 .DS_Store
 Thumbs.db
 desktop.ini
