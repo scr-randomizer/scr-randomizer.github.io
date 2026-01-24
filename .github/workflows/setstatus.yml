@@ -27,19 +27,26 @@ jobs:
           elif [[ "${{ github.event.inputs.state }}" == "down" ]]; then
             echo "badge=SCR--Randomizer-Down-orangered" >> $GITHUB_OUTPUT
           else
-            echo "badge=SCR--Randomizer-Updating-gold" >> $GITHUB_OUTPUT
+            echo "badge=SCR--Randomizer-Updating-yellow" >> $GITHUB_OUTPUT
           fi
 
       - name: Update Files
         run: |
-          # We search for the EXACT current Online badge and swap it for the dynamic one
-          # Using '|' instead of '/' makes it easier to handle the URL slashes
-          sed -i 's|img.shields.io/badge/SCR--Randomizer-Online-brightgreen|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' README.md
+          # This wildcard approach finds the badge no matter its current state
+          sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' README.md
           
+          if [ -f index.html ]; then
+            sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' index.html
+          fi
+
       - name: Commit and Push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add README.md index.html || true
-          git commit -m "chore: update status to ${{ github.event.inputs.state }}" || echo "No changes to commit"
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update status to ${{ github.event.inputs.state }}"
+            git push
+          else
+            echo "No changes detected, skipping commit."
+          fi
