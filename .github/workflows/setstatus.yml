@@ -28,7 +28,7 @@ jobs:
           elif [[ "${{ github.event.inputs.state }}" == "down" ]]; then
             echo "badge=SCR--Randomizer-Down-orangered" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event.inputs.state }}" == "maintenance" ]]; then
-             echo "badge=SCR--Randomizer-Down-orange" >> $GITHUB_OUTPUT
+             echo "badge=SCR--Randomizer-Maintenance-orange" >> $GITHUB_OUTPUT
           else
             echo "badge=SCR--Randomizer-Updating-gold" >> $GITHUB_OUTPUT
           fi
