@@ -11,6 +11,7 @@ on:
           - online
           - down
           - updating
+          - maintenance
 
 jobs:
   update-status:
@@ -26,6 +27,8 @@ jobs:
             echo "badge=SCR--Randomizer-Online-brightgreen" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event.inputs.state }}" == "down" ]]; then
             echo "badge=SCR--Randomizer-Down-orangered" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.inputs.state }}" == "maintenance" ]]; then
+             echo "badge=SCR--Randomizer-Down-orange" >> $GITHUB_OUTPUT
           else
             echo "badge=SCR--Randomizer-Updating-gold" >> $GITHUB_OUTPUT
           fi
