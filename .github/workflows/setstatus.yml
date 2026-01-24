@@ -1,0 +1,45 @@
+name: Toggle Project Status
+on:
+  workflow_dispatch:
+    inputs:
+      state:
+        description: 'Select Status'
+        required: true
+        default: 'online'
+        type: choice
+        options:
+          - online
+          - down
+          - updating
+
+jobs:
+  update-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set Badge Variables
+        id: vars
+        run: |
+          if [[ "${{ github.event.inputs.state }}" == "online" ]]; then
+            echo "badge=SCR--Randomizer-Online-brightgreen" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.inputs.state }}" == "down" ]]; then
+            echo "badge=SCR--Randomizer-Down-E5292D" >> $GITHUB_OUTPUT
+          else
+            echo "badge=SCR--Randomizer-Updating-yellow" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update README and Index
+        run: |
+          # Use sed to find the text between our markers and replace it
+          sed -i '//,//c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' README.md
+          sed -i '//,//c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' index.html
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md index.html
+          git commit -m "chore: update status to ${{ github.event.inputs.state }}"
+          git push
