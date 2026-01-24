@@ -46,7 +46,7 @@ body {
     border-radius: 10px; 
     box-shadow: 0 10px 40px rgba(0,0,0,0.0);
     
-    /* Enable container queries based on this width */
+    /* enable container queries based on this width */
     container-type: inline-size; 
     
     /* stacking centering */
