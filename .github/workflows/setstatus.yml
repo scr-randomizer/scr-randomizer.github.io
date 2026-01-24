@@ -25,9 +25,9 @@ jobs:
           if [[ "${{ github.event.inputs.state }}" == "online" ]]; then
             echo "badge=SCR--Randomizer-Online-brightgreen" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event.inputs.state }}" == "down" ]]; then
-            echo "badge=SCR--Randomizer-Down-E5292D" >> $GITHUB_OUTPUT
+            echo "badge=SCR--Randomizer-Down-orangered" >> $GITHUB_OUTPUT
           else
-            echo "badge=SCR--Randomizer-Updating-yellow" >> $GITHUB_OUTPUT
+            echo "badge=SCR--Randomizer-Updating-gold" >> $GITHUB_OUTPUT
           fi
 
       - name: Update README and Index
