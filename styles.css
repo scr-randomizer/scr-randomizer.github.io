@@ -1,0 +1,107 @@
+:root {
+    /* Raw dimensions of the Code.org embed */
+    --raw-width: 392px;
+    --raw-height: 620px;
+}
+
+.header { 
+    font-family: 'Ubuntu', sans-serif; 
+    text-align: center; 
+    background: #10203B;
+    margin: 0px auto; 
+    padding: 10px; 
+    color: #FFFFFF;
+}
+
+body { 
+    font-family: 'Ubuntu', sans-serif; 
+    text-align: center; 
+    background-color: #5C6971;
+    margin: 0; 
+    color: #FFFFFF;
+}
+
+.containerhead { 
+    max-width: 900px; 
+    margin: auto; 
+    padding: 20px 20px; 
+    background: #1C1C1C; 
+    border-radius: 10px; 
+    box-shadow: 0 5px 18px rgba(0,0,0,0.2);
+    
+    /* enable container queries based on this width */
+    container-type: inline-size; 
+    
+    /* stacking centering */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.containerbody { 
+    max-width: 900px; 
+    margin: 0px auto; 
+    padding: 0px 2px; 
+    background: #5C6971; 
+    border-radius: 10px; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.0);
+    
+    /* Enable container queries based on this width */
+    container-type: inline-size; 
+    
+    /* stacking centering */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* app buffer doohickey v1 */
+#app-buffer {
+    /* scale based on 115% of the container width vs raw iframe width */
+    --dynamic-scale: clamp(0.4, (115cqw / var(--raw-width)), 1.9);
+    
+    /* occupy the exact physical space of the scaled app */
+    width: calc(var(--raw-width) * var(--dynamic-scale));
+    height: calc(var(--raw-height) * var(--dynamic-scale));
+    
+    margin: 0px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app-buffer iframe {
+    width: var(--raw-width);
+    height: var(--raw-height);
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    position: absolute;
+    background: #5C6971;
+
+    /* Apply the scale from the center */
+    transform: scale(var(--dynamic-scale));
+    transform-origin: center center;
+}
+
+.title-image { width: 50%; height: auto; margin-bottom: 10px; }
+
+.repo-link { font-size: 18px; line-height: 1.6; margin: 0; }
+.repo-link b { color: #FFFFFF; }
+.repo-link a { color: #2F8CF9; text-decoration: none; }
+.repo-link a:hover { text-decoration: underline; }
+
+.footer-logo { margin-top: 20px; }
+.footer-text { font-size: 18px; line-height: 1.6; margin: 0; }
+
+#app-buffer p {
+    font-size: 22px;
+    line-height: 1.6;
+}
+
+.maintenance-container {
+    background-color: #F95300;
+    padding: 10px;
+    border-radius: 10px;
+}
