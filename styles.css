@@ -1,5 +1,5 @@
 :root {
-    /* Raw dimensions of the Code embed */
+    /* Raw dimensions of the Code.org embed */
     --raw-width: 392px;
     --raw-height: 620px;
 }
@@ -46,7 +46,7 @@ body {
     border-radius: 10px; 
     box-shadow: 0 10px 40px rgba(0,0,0,0.0);
     
-    /* enable container queries based on this width */
+    /* Enable container queries based on this width */
     container-type: inline-size; 
     
     /* stacking centering */
@@ -92,8 +92,8 @@ body {
 .repo-link a { color: #2F8CF9; text-decoration: none; }
 .repo-link a:hover { text-decoration: underline; }
 
-.footer-logo { margin-top: 20px; }
-.footer-text { font-size: 18px; line-height: 1.6; margin: 0; }
+.footer-logo { margin-top: 0px; }
+.footer-text { font-size: 18px; line-height: 1.6; margin: 0; margin-top: 10px;}
 
 #app-buffer p {
     font-size: 22px;
@@ -104,4 +104,9 @@ body {
     background-color: #F95300;
     padding: 10px;
     border-radius: 10px;
+}
+
+.footer-status
+{
+    margin: 5px;
 }
