@@ -13,7 +13,7 @@ on:
           - updating
 
 jobs:
-  update-file:
+  update-status:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,17 +29,21 @@ jobs:
           else
             echo "badge=SCR--Randomizer-Updating-gold" >> $GITHUB_OUTPUT
           fi
-          
-      - name: Update README and Index
-        run: |
-          # Use '|' as a separator to avoid slash conflicts
-          # This command searches for the markers and replaces the whole block
-          sed -i '\||,\||c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' README.md
 
-      - name: Commit changes
+      - name: Update Files
+        run: |
+          # Use | as sed separator. We search for the STATUS markers.
+          # The 's' command replaces the entire block between markers.
+          sed -i '/STATUS_START/,/STATUS_END/c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' README.md
+          
+          if [ -f index.html ]; then
+            sed -i '/STATUS_START/,/STATUS_END/c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' index.html
+          fi
+
+      - name: Commit and Push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add README.md index.html
-          git commit -m "chore: update status to ${{ github.event.inputs.state }}"
+          git add README.md index.html || true
+          git commit -m "chore: update status to ${{ github.event.inputs.state }}" || echo "No changes to commit"
           git push
