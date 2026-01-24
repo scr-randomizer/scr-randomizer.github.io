@@ -20,6 +20,7 @@ This project's assets (HTML, CSS, and Images) are licensed under
 - **Feel free to:** Use, modify, and distribute images associated with SCR Randomizer for thumbnails, reviews, or social media.
 - **Do not:** Use these assets for commercial purposes or claim the overall design as your own without credit, please.
 
+## STATUS
 <p class="p" align="left">
   <img src="https://img.shields.io/badge/SCR--Randomizer-Down-orangered">
   <img src="https://img.shields.io/github/last-commit/scr-randomizer/home?color=black&label=Last%20updated" alt="Last Commit">
