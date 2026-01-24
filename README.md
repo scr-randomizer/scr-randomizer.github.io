@@ -21,5 +21,8 @@ This project's assets (HTML, CSS, and Images) are licensed under
 - **Feel free to:** Use, modify, and distribute images associated with SCR Randomizer for thumbnails, reviews, or social media.
 - **Do not:** Use these assets for commercial purposes or claim the overall design as your own without credit, please.
 
-<img src="https://github.com/scr-randomizer/home/actions/workflows/main.yml/badge.svg" alt="Build Status">
-<img src="https://img.shields.io/github/last-commit/scr-randomizer/home?color=blue&label=updated" alt="Last Commit">
+<p align="center">
+  <img src="https://img.shields.io/badge/dynamic/json?label=SCR-Randomizer&query=%24.status&color=%24.color&url=https%3A%2F%2Fgist.githubusercontent.com%2F[USER]%2F[ID]%2Fraw%2Fstatus.json" alt="Status">
+  <img src="https://img.shields.io/github/last-commit/scr-randomizer/home?color=blue&label=updated" alt="Last Commit">
+  <img src="https://img.shields.io/badge/dynamic/json?label=visits&query=count&url=https%3A%2F%2Fsvessels3.goatcounter.com%2Fcounter%2FTOTAL.json&color=blue" alt="Total Visits">
+</p>
