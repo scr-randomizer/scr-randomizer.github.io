@@ -32,8 +32,9 @@ jobs:
           
       - name: Update README and Index
         run: |
-          # **markers {{}}**
-          sed -i '//,//c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' README.md
+          # Use '|' as a separator to avoid slash conflicts
+          # This command searches for the markers and replaces the whole block
+          sed -i '\||,\||c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' README.md
 
       - name: Commit changes
         run: |
