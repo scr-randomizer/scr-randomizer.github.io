@@ -32,10 +32,10 @@ jobs:
 
       - name: Update Files
         run: |
-          # We search for the FULL HTML comments. 
-          # The 's' or 'c' command will only fire if it finds the exact string.
-          sed -i '//README.md//c\<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">' README.md
-
+          # We search for the EXACT current Online badge and swap it for the dynamic one
+          # Using '|' instead of '/' makes it easier to handle the URL slashes
+          sed -i 's|img.shields.io/badge/SCR--Randomizer-Online-brightgreen|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' README.md
+          
       - name: Commit and Push
         run: |
           git config --local user.email "action@github.com"
