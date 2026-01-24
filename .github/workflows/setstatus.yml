@@ -32,13 +32,9 @@ jobs:
 
       - name: Update Files
         run: |
-          # Use | as sed separator. We search for the STATUS markers.
-          # The 's' command replaces the entire block between markers.
-          sed -i '/STATUS_START/,/STATUS_END/c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' README.md
-          
-          if [ -f index.html ]; then
-            sed -i '/STATUS_START/,/STATUS_END/c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' index.html
-          fi
+          # We search for the FULL HTML comments. 
+          # The 's' or 'c' command will only fire if it finds the exact string.
+          sed -i '//,//c\<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">' README.md
 
       - name: Commit and Push
         run: |
