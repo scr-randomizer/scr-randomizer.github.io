@@ -23,6 +23,6 @@ This project's assets (HTML, CSS, and Images) are licensed under
 <p class="p" align="left">
   <img src="https://img.shields.io/badge/SCR--Randomizer-Down-orangered">
   <img src="https://img.shields.io/github/last-commit/scr-randomizer/home?color=black&label=Last%20updated" alt="Last Commit">
-  <img src="https://img.shields.io/badge/dynamic/json?label=visits&query=count&url=https%3A%2F%2Fsvessels3.goatcounter.com%2Fcounter%2FTOTAL.json&color=10203B" alt="Total Visits">
+  <img src="https://img.shields.io/badge/dynamic/json?label=Visits&query=count&url=https%3A%2F%2Fsvessels3.goatcounter.com%2Fcounter%2FTOTAL.json&color=10203B" alt="Total Visits">
 </p>
 
