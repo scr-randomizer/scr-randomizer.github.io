@@ -29,10 +29,10 @@ jobs:
           else
             echo "badge=SCR--Randomizer-Updating-gold" >> $GITHUB_OUTPUT
           fi
-
+          
       - name: Update README and Index
         run: |
-          # Use sed to find the text between our markers and replace it
+          # The markers tell sed exactly where to swap the text
           sed -i '//,//c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' README.md
           sed -i '//,//c\\n<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">\n' index.html
 
