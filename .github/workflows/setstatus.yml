@@ -34,7 +34,7 @@ jobs:
         run: |
           # We search for the FULL HTML comments. 
           # The 's' or 'c' command will only fire if it finds the exact string.
-          sed -i '//,//c\<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">' README.md
+          sed -i '//README.md//c\<img src="https://img.shields.io/badge/${{ steps.vars.outputs.badge }}">' README.md
 
       - name: Commit and Push
         run: |
