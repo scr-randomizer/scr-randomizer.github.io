@@ -1,0 +1,49 @@
+name: Deploy Website
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Select deployment mode'
+        required: true
+        default: 'maintenance'
+        type: choice
+        options:
+          - live
+          - maintenance
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Switch HTML Version
+        run: |
+          # Use -f to force overwrite any existing index.html in the root
+          if [ "${{ github.event.inputs.mode }}" == "live" ]; then
+            echo "Deploying Live Version from .github/src/..."
+            cp .github/src/index.live.html ./index.html
+          else
+            echo "Entering maintenance mode in .github/src/..."
+            cp .github/src/index.mt.html ./index.html
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # This uploads the root directory, which now contains the swapped index.html
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
