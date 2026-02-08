@@ -1,14 +1,30 @@
 :root {
-    /* Raw dimensions of the Code.org embed */
-    --raw-width: 392px;
-    --raw-height: 515px;
+    --frame-w: 318px;   /* Width of the "Phone" on Desktop */
+    --frame-h: 445px;   /* Height of the "Phone" on Desktop */
+    --app-y: -68.5px;     /* Vertical Crop */
+    --app-x: -37px;     /* Horizontal Centering */
+    transform: scale(1.5);
+    margin-top: 182px;
+}
+
+@media screen and (max-width: 767px) {
+    :root {
+        --frame-w: 318px; /* Smaller width for Phones/Nest */
+        --frame-h: 446px; /* Smaller height for Phones/Nest */
+        --app-y: 0px;   /* Custom crop for smaller view */
+        --app-x: 0px;   /* Custom centering for smaller view */
+        transform: scale(0.97);
+        margin-top: 0px;
+    }
+
+    
 }
 
 .header { 
     font-family: 'Ubuntu', sans-serif; 
     text-align: center; 
     background: #10203B;
-    margin: 0px auto; 
+    margin: 0px auto;
     padding: 10px; 
     color: #FFFFFF;
 }
@@ -16,7 +32,7 @@
 body { 
     font-family: 'Ubuntu', sans-serif; 
     text-align: center; 
-    background-color: #5C6971;
+    background-color: #5c6971;
     margin: 0; 
     color: #FFFFFF;
 }
@@ -39,10 +55,10 @@ body {
 }
 
 .containerbody { 
-    max-width: 900px; 
+    max-width: 900px;
     margin: 0px auto; 
-    padding: 0px 2px; 
-    background: #5C6971; 
+    padding: 0px 0px; 
+    background: #5c6971; 
     border-radius: 10px; 
     box-shadow: 0 10px 40px rgba(0,0,0,0.0);
     overflow: hidden;
@@ -56,38 +72,33 @@ body {
     align-items: center;
 }
 
-/* app buffer doohickey v1 */
 #app-buffer {
-    --crop-amount: 65px;
-    /* scale based on 115% of the container width vs raw iframe width */
-    --dynamic-scale: clamp(0.4, (115cqw / var(--raw-width)), 1.9);
-    
-    /* occupy the exact physical space of the scaled app */
-    width: calc(var(--raw-width) * var(--dynamic-scale));
-    height: calc(var(--raw-height) * var(--dynamic-scale));
-    
-    margin: 0px auto;
+    width: var(--frame-w);
+    height: var(--frame-h); 
+    margin-top: 10px;
+    margin-left: 0px;
     position: relative;
-    top: calc(var(--crop-amount) * -1 * var(--dynamic-scale));
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    
+    border: 10px solid #1c1c1c;
+    border-radius: 18px;
+    background: #000;
     overflow: hidden;
+    display: block; 
 }
 
 #app-buffer iframe {
-    width: var(--raw-width);
-    height: var(--raw-height);
+    /* We keep the internal size stable to prevent tap-shift */
+    width: 450px; 
+    height: 650px;
+    
     border: none;
-    border-radius: 3px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     position: absolute;
-    background: #5C6971;
-    overflow: clip;
-
-    /* Apply the scale from the center */
-    transform: scale(var(--dynamic-scale));
-    transform-origin: center center;
+    
+    /* These pull from the variables above (Desktop or Mobile) */
+    top: var(--app-y);
+    left: var(--app-x);
+    
+    touch-action: manipulation;
 }
 
 .title-image { width: 50%; height: auto; margin-bottom: 10px; }
@@ -98,9 +109,8 @@ body {
 .repo-link a:hover { text-decoration: underline; }
 
 /*3 locations to adjust footer position (top)*/
-.footer-logo { margin-top: 0px; top: -135px; position: relative;}
-.footer-text { font-size: 18px; line-height: 1.6; margin: 0; margin-top: 10px; top: -135px; position: relative;}
-
+.footer-logo { margin-top: 0px; position: relative;}
+.footer-text { font-size: 18px; line-height: 1.6; margin: 20px; margin-top: 10px; position: relative;}; 
 #app-buffer p {
     font-size: 22px;
     line-height: 1.6;
@@ -108,11 +118,52 @@ body {
 
 .maintenance-container {
     background-color: #F95300;
-    padding: 10px;
+    padding: 12px 16px;
     border-radius: 10px;
+    width: calc(100vw - 60px);
+    margin: 10px 30px;
+    line-height: 1.4;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+/* DOWN-version specific: make a transparent wrapper the same height as the dev app-buffer
+   while keeping the visible maintenance box's intrinsic height unchanged */
+.down-version {
+    --dynamic-scale: clamp(0.7, (95cqw / var(--raw-width)), 1.4);
+}
+
+.down-version #app-buffer {
+    width: calc(var(--raw-width) * var(--dynamic-scale));
+    height: calc(var(--raw-height) * var(--dynamic-scale));
+    margin: 30px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    border: 8px solid #1c1c1c;
+    border-radius: 10px;
+    background: #000;
+}
+
+.down-version .maintenance-wrapper {
+    height: calc(var(--raw-height) * var(--dynamic-scale));
+    width: calc(100vw - 40px);
+    margin: 10px 20px;
+    background: transparent;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.down-version .maintenance-container {
+    width: auto;
+    max-width: calc(var(--raw-width) * var(--dynamic-scale));
 }
 
 .footer-status
 {
-    margin: 5px; top: -135px; position: relative;
+    margin: 5px; position: relative;
 }
