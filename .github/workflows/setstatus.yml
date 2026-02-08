@@ -35,18 +35,22 @@ jobs:
 
       - name: Update Files
         run: |
-          # This wildcard approach finds the badge no matter its current state
+          # 1. Update the README
           sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' README.md
           
-          if [ -f index.html ]; then
-            sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' index.html
-          fi
+          # 2. Update both source HTML files in the hidden folder
+          # This ensures the badge is correct no matter which one you deploy later
+          sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' .github/src/index.live.html
+          sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' .github/src/index.mt.html
 
       - name: Commit and Push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add README.md index.html || true
+          
+          # Add README and the source folder
+          git add README.md .github/src/*.html
+          
           if ! git diff --cached --quiet; then
             git commit -m "chore: update status to ${{ github.event.inputs.state }}"
             git push
