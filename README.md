@@ -13,7 +13,7 @@ While you may encounter bugs or issues in the program, as it is relatively new, 
 
 This project and its developer(s) are NOT affiliated, associated, endorsed, or officially connected to the official Stepford County Railway in any way, shape, or form.
 
-This project's assets (HTML, CSS, and Images) are licensed under 
+This project's assets (HTML, CSS, and images) are licensed under 
 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). See the full [license](https://github.com/scr-randomizer/scr-randomizer.github.io?tab=License-1-ov-file) for more information.
 
 - **Feel free to:** Use, modify, and distribute images associated with SCR Randomizer for thumbnails, reviews, or social media.
