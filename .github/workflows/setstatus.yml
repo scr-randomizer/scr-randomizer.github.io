@@ -1,59 +1,63 @@
-name: Toggle Project Status
+name: Deploy Website
+
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       state:
-        description: 'Select Status'
+        description: 'Select deployment state'
         required: true
         default: 'online'
         type: choice
         options:
           - online
-          - down
-          - updating
           - maintenance
+          - updating
+          - down
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  update-status:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set Badge Variables
-        id: vars
+      - name: Switch HTML Version
         run: |
-          if [[ "${{ github.event.inputs.state }}" == "online" ]]; then
-            echo "badge=SCR--Randomizer-Online-brightgreen" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event.inputs.state }}" == "down" ]]; then
-            echo "badge=SCR--Randomizer-Down-orangered" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event.inputs.state }}" == "maintenance" ]]; then
-             echo "badge=SCR--Randomizer-Maintenance-orange" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event.inputs.state }}" == "updating" ]]; then
-            echo "badge=SCR--Randomizer-Updating-gold" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Update Files
-        run: |
-          # 1. Update the README
-          sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' README.md
+          # Default to 'online' if the workflow was triggered by a push
+          STATE="${{ github.event.inputs.state || 'online' }}"
           
-          # 2. Update both source HTML files in the hidden folder
-          # This ensures the badge is correct no matter which one you deploy later
-          sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' .github/src/index.live.html
-          sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' .github/src/index.mt.html
-
-      - name: Commit and Push
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          
-          # Add README and the source folder
-          git add README.md .github/src/*.html
-          
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: update status to ${{ github.event.inputs.state }}"
-            git push
+          if [ "$STATE" == "online" ]; then
+            echo "State is $STATE: Copying index.live.html"
+            cp .github/src/index.live.html ./index.html
           else
-            echo "No changes detected, skipping commit."
+            echo "State is $STATE: Copying index.mt.html"
+            cp .github/src/index.mt.html ./index.html
           fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
