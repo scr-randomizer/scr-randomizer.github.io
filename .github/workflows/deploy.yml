@@ -1,6 +1,9 @@
 name: Deploy Website
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       mode:
@@ -17,9 +20,12 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   deploy:
-    # Add this environment block to fix the error
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -31,11 +37,14 @@ jobs:
 
       - name: Switch HTML Version
         run: |
-          if [ "${{ github.event.inputs.mode }}" == "live" ]; then
+          # Now defaults to 'maintenance' if triggered by a push
+          MODE="${{ github.event.inputs.mode || 'maintenance' }}"
+          
+          if [ "$MODE" == "live" ]; then
             echo "Deploying Live Version from .github/src/..."
             cp .github/src/index.live.html ./index.html
           else
-            echo "Entering Maintenance mode on .github/src/..."
+            echo "Deploying Maintenance Version (Default) from .github/src/..."
             cp .github/src/index.mt.html ./index.html
           fi
 
