@@ -20,6 +20,14 @@
     
 }
 
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* This kills the horizontal scrollbar */
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
 .header { 
     font-family: 'Ubuntu', sans-serif; 
     text-align: center; 
