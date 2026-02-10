@@ -23,7 +23,7 @@
 html, body {
     width: 100%;
     overflow-x: hidden;
-    position: relative;
+    position: relative !important;
     margin: 0;
     padding: 0;
 }
