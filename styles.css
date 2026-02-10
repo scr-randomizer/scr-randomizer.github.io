@@ -22,7 +22,7 @@
 
 html, body {
     width: 100%;
-    overflow-x: hidden; /* This kills the horizontal scrollbar */
+    overflow-x: hidden;
     position: relative;
     margin: 0;
     padding: 0;
