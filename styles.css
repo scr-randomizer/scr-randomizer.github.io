@@ -2,17 +2,17 @@
     --frame-w: 318px;
     --frame-h: 445px;
     --app-y: -68.5px;
-    --app-x: -37px;     
+    --app-x: -37px;
     transform: scale(1.5);
-    margin-top: 182px;
+    margin-top: 180px;
 }
 
 @media screen and (max-width: 767px) {
     :root {
-        --frame-w: 318px; 
-        --frame-h: 446px; 
-        --app-y: 0px;  
-        --app-x: 0px;   
+        --frame-w: 318px;
+        --frame-h: 446px;
+        --app-y: 0px;
+        --app-x: 0px;
         transform: scale(0.97);
         margin-top: 0px;
     }
@@ -22,8 +22,8 @@
 
 html, body {
     width: 100%;
-    overflow-x: hidden;
-    position: relative !important;
+    overflow-x: hidden !important;
+    position: relative;
     margin: 0;
     padding: 0;
 }
@@ -104,7 +104,6 @@ body {
     border: none;
     position: absolute;
     
-    /* (Desktop or Mobile) */
     top: var(--app-y);
     left: var(--app-x);
     
@@ -118,9 +117,9 @@ body {
 .repo-link a { color: #2F8CF9; text-decoration: none; }
 .repo-link a:hover { text-decoration: underline; }
 
-/*3 locations to adjust footer position (top)*/
 .footer-logo { margin-top: 0px; position: relative;}
 .footer-text { font-size: 18px; line-height: 1.6; margin: 10px 20px; margin-top: 10px; position: relative; padding: 0 10px; box-sizing: border-box; overflow-wrap: break-word; word-wrap: break-word; }
+
 #app-buffer p {
     font-size: 22px;
     line-height: 1.6;
@@ -159,7 +158,4 @@ body {
     padding: 12px 16px;
 }
 
-.footer-status
-{
-    margin: 5px; position: relative;
-}
+.footer-status { margin: 5px; position: relative; }
