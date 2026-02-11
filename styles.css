@@ -1,18 +1,18 @@
 :root {
-    --frame-w: 318px;   /* Width of the "Phone" on Desktop */
-    --frame-h: 445px;   /* Height of the "Phone" on Desktop */
-    --app-y: -68.5px;     /* Vertical Crop */
-    --app-x: -37px;     /* Horizontal Centering */
+    --frame-w: 318px;
+    --frame-h: 445px;
+    --app-y: -68.5px;
+    --app-x: -37px;     
     transform: scale(1.5);
     margin-top: 182px;
 }
 
 @media screen and (max-width: 767px) {
     :root {
-        --frame-w: 318px; /* Smaller width for Phones/Nest */
-        --frame-h: 446px; /* Smaller height for Phones/Nest */
-        --app-y: 0px;   /* Custom crop for smaller view */
-        --app-x: 0px;   /* Custom centering for smaller view */
+        --frame-w: 318px; 
+        --frame-h: 446px; 
+        --app-y: 0px;  
+        --app-x: 0px;   
         transform: scale(0.97);
         margin-top: 0px;
     }
@@ -92,20 +92,19 @@ body {
     
     border: 10px solid #1c1c1c;
     border-radius: 18px;
-    background: #000;
+    background: #5C6971;
     overflow: hidden;
     display: block; 
 }
 
 #app-buffer iframe {
-    /* We keep the internal size stable to prevent tap-shift */
     width: 450px; 
     height: 650px;
     
     border: none;
     position: absolute;
     
-    /* These pull from the variables above (Desktop or Mobile) */
+    /* (Desktop or Mobile) */
     top: var(--app-y);
     left: var(--app-x);
     
@@ -139,8 +138,6 @@ body {
     max-width: calc(900px - 40px);
 }
 
-/* DOWN-version specific: make a transparent wrapper the same height as the dev app-buffer
-   while keeping the visible maintenance box's intrinsic height unchanged */
 .down-version .maintenance-wrapper {
     width: 100%;
     max-width: 900px;
