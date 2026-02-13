@@ -26,27 +26,18 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Switch HTML Version
+      - name: Inject Embed Link
         run: |
-          # Now defaults to 'maintenance' if triggered by a push
-          MODE="${{ github.event.inputs.mode || 'maintenance' }}"
-          
-          if [ "$MODE" == "live" ]; then
-            echo "Deploying Live Version from .github/src/..."
-            cp .github/src/index.live.html ./index.html
-          else
-            echo "Deploying Maintenance Version (Default) from .github/src/..."
-            cp .github/src/index.mt.html ./index.html
-          fi
+          # Uses 'sed' to replace the placeholder with the Secret value
+          sed -i "s|?SOURCE|${{ secrets.EMBED_SOURCE }}|g" index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
