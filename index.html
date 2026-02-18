@@ -23,7 +23,7 @@
     <div class="containerbody">
         <div id="live-view">
             <div id="app-buffer">
-                <iframe id="gateway" src="?SOURCE"></iframe>
+                <iframe id="gateway" src="about:blank"></iframe>
             </div>
         </div>
         <div id="maint" style="display: none;">
@@ -70,15 +70,20 @@
     var maintenanceView = document.getElementById('maint');
     var frame = document.getElementById('gateway');
 
-    if (live) {
-        appView.style.display = 'block';
-        maintenanceView.style.display = 'none';
-        frame.src = "?SOURCE";
-    } else {
-        appView.style.display = 'none';
-        maintenanceView.style.display = 'block';
-        frame.src = "about:blank";
-    }
+    window.onload = function() {
+        if (window.self !== window.top) {
+            return; 
+        }
+        if (live) {
+            appView.style.display = 'block';
+            maintenanceView.style.display = 'none';
+            frame.src = "about:blank";
+        } else {
+            appView.style.display = 'none';
+            maintenanceView.style.display = 'block';
+            frame.src = "about:blank";
+        }
+    }   
     </script>
 </body>
 </html>
