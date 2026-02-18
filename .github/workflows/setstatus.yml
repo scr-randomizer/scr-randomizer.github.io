@@ -1,17 +1,22 @@
-name: Toggle Project Status
+name: Status Updater
+
 on:
+  push:
+    branches: [ main ]
+    
   workflow_dispatch:
     inputs:
-      state:
-        description: 'Select Status Badge'
-        required: true
-        default: 'online'
+      manual_status:
+        description: 'Override Status (leave blank for auto-detect)'
+        required: false
+        default: ''
         type: choice
         options:
+          - ''
           - online
+          - maintenance
           - down
           - updating
-          - maintenance
 
 jobs:
   update-status:
@@ -20,34 +25,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set Badge Variables
-        id: vars
+      - name: Detect Site State
+        id: check_state
         run: |
-          if [[ "${{ github.event.inputs.state }}" == "online" ]]; then
-            echo "badge=SCR--Randomizer-Online-brightgreen" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event.inputs.state }}" == "down" ]]; then
-            echo "badge=SCR--Randomizer-Down-orangered" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event.inputs.state }}" == "maintenance" ]]; then
-             echo "badge=SCR--Randomizer-Maintenance-orange" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event.inputs.state }}" == "updating" ]]; then
-            echo "badge=SCR--Randomizer-Updating-gold" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Update Source Files
-        run: |
-          # Update README
-          sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' README.md
+          # 1. Check if the user selected something in the dropdown
+          MANUAL_INPUT="${{ github.event.inputs.manual_status }}"
           
-          # Update the source templates in .github/src/
-          sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' .github/src/index.live.html
-          sed -i 's|img.shields.io/badge/SCR--Randomizer-[^"]*|img.shields.io/badge/${{ steps.vars.outputs.badge }}|g' .github/src/index.mt.html
-
-      - name: Commit and Push
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add README.md .github/src/*.html
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: update status to ${{ github.event.inputs.state }}"
-            git push
+          if [ -n "$MANUAL_INPUT" ]; then
+            echo "status=$MANUAL_INPUT" >> $GITHUB_OUTPUT
+          else
+            # 2. If no manual choice, fall back to scanning index.html
+            if grep -q "isLive = true" index.html; then
+              echo "status=online" >> $GITHUB_OUTPUT
+            else
+              echo "status=maintenance" >> $GITHUB_OUTPUT
+            fi
           fi
+
+      - name: Update README Badge
+        run: |
+          STATUS=${{ steps.check_state.outputs.status }}
+          # Logic to swap your badge color based on the status
+          # (Using sed to find the current status in README and replace it)
+          sed -i "s/status-.*-blue/status-${STATUS}-green/g" README.md
