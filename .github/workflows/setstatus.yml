@@ -35,7 +35,7 @@ jobs:
             echo "status=$MANUAL_INPUT" >> $GITHUB_OUTPUT
           else
             # 2. If no manual choice, fall back to scanning index.html
-            if grep -q "isLive = true" index.html; then
+            if grep -q "live = true" index.html; then
               echo "status=online" >> $GITHUB_OUTPUT
             else
               echo "status=maintenance" >> $GITHUB_OUTPUT
