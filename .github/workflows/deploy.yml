@@ -27,7 +27,7 @@ jobs:
       - name: Inject Embed Link
         run: |
           # Uses 'sed' to replace the placeholder with the Secret value
-          sed -i "s|about:blank|${{ secrets.EMBED_SRC }}|g" index.html
+          sed -i "s|src="about:blank"|src="${{ secrets.EMBED_SRC }}"|g" index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
