@@ -4,16 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      mode:
-        description: 'Select deployment mode'
-        required: true
-        default: 'maintenance'
-        type: choice
-        options:
-          - live
-          - maintenance
 
 permissions:
   contents: write
