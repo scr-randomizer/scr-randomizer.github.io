@@ -3,52 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="assets/RNGfavicon.png">
+    <link rel="icon" type="image/png" href="assets/RNGfavicon.ico">
     <title>SCR Randomizer</title>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
-
-    <script data-goatcounter="https://svessels3.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="down-version">
+<body>
     <header class="header">
         <div class="containerhead">
             <img src="assets/randomizerlogostatic.png" alt="SCR Randomizer" class="title-image">
         
-           <p class="repo-link">
-                Welcome! <b>Click the screen to start.</b> 
+            <p class="repo-link">
+                Welcome! <b>Click the screen to start.</b> <br>
             </p>
         </div>
     </header>
-
-
-    <div class="maintenance-wrapper">
-        <div class="maintenance-container">
-            <p>This is currently under maintenance. As this site is currently a work in progress, this feature is currently unavavilable. Please try again later to access site features. I apologize for the inconvenience.</p>
+    <div class="containerbody">
+        <div id="live-view">
+            <div id="app-buffer">
+                <iframe id="?SOURCE" src="about:blank"></iframe>
+            </div>
+        </div>
+        <div id="maint" style="display: none;">
+            <div class="maintenance-wrapper">
+                <div class="maintenance-container">
+                    <p>This is currently under maintenance. As this site is currently a work in progress, this feature is currently unavavilable. Please try again later to access site features. I apologize for the inconvenience.</p>
+                </div>
+            </div>
         </div>
     </div>
 
-         <p class="footer-text">
-    Have issues/suggestions? Please create an 
-    <a href="https://github.com/scr-randomizer/scr-randomizer.github.io/issues" style="color: #FFFFFF;">issue request</a>!</p>
-    
-        <div class="footer-logo">
-            <a href='https://ko-fi.com/R6R71RH2ZF' target='_blank'>
-                <img height='44px' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' alt='Buy Me a Coffee' />
-            </a>
-        </div>
-
+    <p class="footer-text">
+        Have issues/suggestions? Please create an 
+        <a href="https://github.com/scr-randomizer/scr-randomizer.github.io/issues" style="color: #FFFFFF;">issue request</a>!
+    </p>
+    <div class="footer-logo">
+        <a href='https://ko-fi.com/R6R71RH2ZF' target='_blank'>
+            <img height='44px' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' alt='Buy Me a Coffee' />
+        </a>
+    </div>
     <div class="footer-status">    
         <a href="https://github.com/scr-randomizer/home/" target="_blank" rel="noopener">
             <img src="https://img.shields.io/badge/github-repo-2facf9?logo=github" alt="GitHub Repository"></a> 
             <a href="https://github.com/scr-randomizer/home/"><img src="https://img.shields.io/badge/dynamic/json?label=Visits&query=count&url=https%3A%2F%2Fsvessels3.goatcounter.com%2Fcounter%2FTOTAL.json&color=10203b" alt="Visits"></a>
     </div>
 
-    </div>
+    <!-- this is a multi line comment to hide the script from older browsers that do not support JavaScript. 
+     This is a common practice to prevent the script from being displayed as text on the page. 
+     The actual JavaScript code will be executed by modern browsers, while older browsers will ignore it. -->
+
+    <script data-goatcounter="ANALYTICS_SRC"
+        async src="//gc.zgo.at/count.js">
+    </script>
+
+
+    <!-- ===== Set Site Status ===== -->
+    <script>
+
+    var live = true;
+
+
+
+    var appView = document.getElementById('live-view');
+    var maintenanceView = document.getElementById('maint');
+    var frame = document.getElementById('gateway');
+
+    if (live) {
+        appView.style.display = 'block';
+        maintenanceView.style.display = 'none';
+        frame.src = "?SOURCE";
+    } else {
+        appView.style.display = 'none';
+        maintenanceView.style.display = 'block';
+        frame.src = "about:blank";
+    }
+    </script>
 </body>
 </html>
+

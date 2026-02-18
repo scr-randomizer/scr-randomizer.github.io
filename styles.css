@@ -4,7 +4,7 @@
     --app-y: -68.5px;
     --app-x: -37px;
     transform: scale(1.5);
-    margin-top: 180px;
+    margin-top: 194px;
 }
 
 @media screen and (max-width: 767px) {
@@ -26,6 +26,7 @@ html, body {
     position: relative;
     margin: 0;
     padding: 0;
+    
 }
 
 .header { 
@@ -137,7 +138,7 @@ body {
     max-width: calc(900px - 40px);
 }
 
-.down-version .maintenance-wrapper {
+.maintenance-wrapper {
     width: 100%;
     max-width: 900px;
     height: var(--frame-h);
@@ -151,7 +152,7 @@ body {
     position: relative;
 }
 
-.down-version .maintenance-container {
+.maintenance-container {
     width: calc(100vw - 50px);
     max-width: calc(60vw);
     margin: 0 auto;
