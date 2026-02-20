@@ -23,7 +23,7 @@
     <div class="containerbody">
         <div id="live-view">
             <div id="app-buffer">
-                <iframe id="gateway" src="about:blank"></iframe>
+                <iframe id="EMBED_SRC" src="about:blank"></iframe>
             </div>
         </div>
         <div id="maint" style="display: none;">
@@ -67,7 +67,7 @@
 
     var appView = document.getElementById('live-view');
     var maintenanceView = document.getElementById('maint');
-    var frame = document.getElementById('gateway');
+    var frame = document.getElementById('EMBED_SRC');
 
     window.onload = function() {
         if (window.self !== window.top) {

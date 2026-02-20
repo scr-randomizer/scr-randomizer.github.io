@@ -24,11 +24,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Inject Embed Link
+      - name: Inject Secrets
+        # 1. Load the variables into environment variables
+        env:
+          EMBED: ${{ secrets.EMBED_SRC }}
+          BADGE: ${{ secrets.V_BADGE }}
+          ANALYTICS: ${{ secrets.ANALYTICS_SRC }}
         run: |
-          sed -i "s|ANALYTICS_SRC|${{ secrets.ANALYTICS_SRC }}|g" index.html
-          # Uses 'sed' to replace the placeholder with the embed
-          sed -i "s|src=\"about:blank\"|src=\"${{ secrets.EMBED_SRC }}\"|g" index.html
+          # 2. Perl finds the exact text and swaps it with the variable. 
+          # It ignores special characters like '&' or slashes.
+          perl -pi -e 's|about:blank|$ENV{EMBED}|g' index.html
+          perl -pi -e 's|V_BADGE|$ENV{BADGE}|g' index.html
+          perl -pi -e 's|ANALYTICS_SRC|$ENV{ANALYTICS}|g' index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
