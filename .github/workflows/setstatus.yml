@@ -1,4 +1,4 @@
-name: Status Updater
+name: Update Status
 
 on:
   push:
@@ -25,26 +25,49 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Detect Site State
+      - name: Detect Site State and Assign Badge
         id: check_state
         run: |
-          # 1. Check if the user selected something in the dropdown
+          # 1. Determine the status (Manual vs Auto-Detect)
           MANUAL_INPUT="${{ github.event.inputs.manual_status }}"
           
           if [ -n "$MANUAL_INPUT" ]; then
-            echo "status=$MANUAL_INPUT" >> $GITHUB_OUTPUT
+            STATUS="$MANUAL_INPUT"
           else
-            # 2. If no manual choice, fall back to scanning index.html
+            # Auto-detect from HTML
             if grep -q "live = true" index.html; then
-              echo "status=online" >> $GITHUB_OUTPUT
+              STATUS="online"
             else
-              echo "status=maintenance" >> $GITHUB_OUTPUT
+              STATUS="maintenance"
             fi
+          fi
+          
+          # Output the raw status for commit messages
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          
+          # 2. Map the resolved STATUS to your custom color/label formats
+          if [[ "$STATUS" == "online" ]]; then
+            echo "badge=SCR--Randomizer-Online-brightgreen" >> $GITHUB_OUTPUT
+          elif [[ "$STATUS" == "down" ]]; then
+            echo "badge=SCR--Randomizer-Down-orangered" >> $GITHUB_OUTPUT
+          elif [[ "$STATUS" == "maintenance" ]]; then
+             echo "badge=SCR--Randomizer-Maintenance-orange" >> $GITHUB_OUTPUT
+          elif [[ "$STATUS" == "updating" ]]; then
+            echo "badge=SCR--Randomizer-Updating-gold" >> $GITHUB_OUTPUT
           fi
 
       - name: Update README Badge
         run: |
-          STATUS=${{ steps.check_state.outputs.status }}
-          # Logic to swap your badge color based on the status
-          # (Using sed to find the current status in README and replace it)
-          sed -i "s/status-.*-blue/status-${STATUS}-green/g" README.md
+          BADGE=${{ steps.check_state.outputs.badge }}
+          
+          # This regex finds any variation of your badge (e.g., SCR--Randomizer-Online-brightgreen)
+          # and replaces it with the newly assigned badge variable.
+          sed -i -E "s/SCR--Randomizer-[A-Za-z]+-[A-Za-z]+/${BADGE}/g" README.md
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "Update site status to ${{ steps.check_state.outputs.status }}" || echo "No changes to commit"
+          git push
