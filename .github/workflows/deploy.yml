@@ -35,9 +35,8 @@ jobs:
           perl -pi -e 's|V_BADGE|$ENV{BADGE}|g' index.html
           perl -pi -e 's|ANALYTICS_SRC|$ENV{ANALYTICS}|g' index.html
           
-          # 2. Print to log for verification
-          echo "=== HTML CHECK ==="
-          grep -E "gateway|GoatCounter|Visits|img|script" index.html
+          # 2. 404
+          cp .github/src/404.html ./404.html
 
 
       - name: Setup Pages
