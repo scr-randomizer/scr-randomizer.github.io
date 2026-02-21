@@ -7,7 +7,7 @@ Each randomization feature filters down all of the operator, train, and route da
 
 The References page details all of the online resources used in creating this program.
 
-While you may encounter bugs or issues in the program, as it is relatively new, please suggest any improvements and bug reports on the issues page of this repository.
+While you may encounter bugs or issues in the program, as it is relatively new, please suggest any improvements and bug reports on the [issues](https://github.com/scr-randomizer/scr-randomizer.github.io/issues) page of this repository.
 
 This project and its developer(s) are NOT affiliated, associated, endorsed, or officially connected to the official Stepford County Railway in any way, shape, or form.
 
