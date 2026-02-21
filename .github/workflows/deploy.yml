@@ -38,6 +38,10 @@ jobs:
           # 2. 404
           cp .github/src/404.html ./404.html
 
+          # 3. HTML debug
+          echo "=== HTML CHECK ==="
+          grep -E "gateway|GoatCounter|Visits|img|script|V_BADGE" index.html
+
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
