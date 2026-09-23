@@ -45,7 +45,7 @@ jobs:
           fi
 
           # 3. Export raw Gist endpoint
-          export GIST_FULL_URL="https://gist.githubusercontent.com/${{ github.repository_owner }}/${GIST}/raw/status.json"
+          export GIST_FULL_URL="${GIST}"
 
           # 4. Strict environment-variable injection
           perl -pi -e 's|EMBED_PLACEHOLDER|$ENV{EMBED}|g' dist/index.html
