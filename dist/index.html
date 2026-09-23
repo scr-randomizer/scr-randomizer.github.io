@@ -23,7 +23,7 @@
     <div class="containerbody">
         <div id="live-view" style="display: none;">
             <div id="app-buffer">
-                <iframe id="gateway" data-src="EMBED_PLACEHOLDER" src="about:blank"></iframe>
+                <iframe id="gateway" data-src="https://studio.code.org/projects/applab/test/embed" src="about:blank"></iframe>
             </div>
         </div>
         
@@ -52,11 +52,11 @@
             <img src="https://img.shields.io/badge/github-repo-2facf9?logo=github" alt="GitHub Repository">
         </a> 
         <a href="https://github.com/scr-randomizer/home/" target="_blank" rel="noopener">
-            <img id="visits-badge" src="V_BADGE" alt="Visits" style="display: inline-block; vertical-align: middle;">
+            <img id="visits-badge" src="https://visitor-badge.laobi.icu/badge?page_id=test" alt="Visits" style="display: inline-block; vertical-align: middle;">
         </a>
     </div>
 
-    <script data-goatcounter="ANALYTICS_SRC" async src="//gc.zgo.at/count.js"></script>
+    <script data-goatcounter="https://test.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
     <!-- ===== Dynamic Gist Site Status Check ===== -->
     <script>
@@ -66,7 +66,7 @@
         var frame = document.getElementById('gateway');
         var visitsBadge = document.getElementById('visits-badge');
 
-        var STATUS_URL = "GIST_STATUS_URL";
+        var STATUS_URL = "https://gist.githubusercontent.com/test/raw/status.json";
 
         function setDisplay(isLive) {
             if (isLive) {
@@ -93,7 +93,7 @@
         }
 
         // If status URL wasn't injected during build, default safely
-        if (!STATUS_URL || STATUS_URL.indexOf("GIST_STATUS_URL") !== -1) {
+        if (!STATUS_URL || STATUS_URL.indexOf("https://gist.githubusercontent.com/test/raw/status.json") !== -1) {
             setDisplay(true);
             return;
         }
