@@ -14,19 +14,19 @@
     <header class="header">
         <div class="containerhead">
             <img src="assets/randomizerlogostatic.png" alt="SCR Randomizer" class="title-image">
-        
             <p class="repo-link">
                 Welcome! <b>Click the screen to start.</b> <br>
             </p>
         </div>
     </header>
+
     <div class="containerbody">
-        <div id="live-view">
+        <div id="live-view" style="display: none;">
             <div id="app-buffer">
-                <iframe id="gateway" src="EMBED_PLACEHOLDER"></iframe>
+                <iframe id="gateway" data-src="EMBED_PLACEHOLDER" src="about:blank"></iframe>
             </div>
         </div>
-    </div>
+        
         <div id="maint" style="display: none;">
             <div class="maintenance-wrapper">
                 <div class="maintenance-container">
@@ -40,52 +40,77 @@
         Have issues/suggestions? Please create an 
         <a href="https://github.com/scr-randomizer/scr-randomizer.github.io/issues" style="color: #FFFFFF;">issue request</a>!
     </p>
+
     <div class="footer-logo">
-        <a href='https://ko-fi.com/R6R71RH2ZF' target='_blank'>
-            <img height='44px' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' alt='Buy Me a Coffee'>
+        <a href="https://ko-fi.com/R6R71RH2ZF" target="_blank" rel="noopener">
+            <img height="44px" src="https://storage.ko-fi.com/cdn/kofi5.png?v=6" alt="Buy Me a Coffee">
         </a>
     </div>
+
     <div class="footer-status">    
         <a href="https://github.com/scr-randomizer/home/" target="_blank" rel="noopener">
-            <img src="https://img.shields.io/badge/github-repo-2facf9?logo=github" alt="GitHub Repository"></a> 
-            <a href="https://github.com/scr-randomizer/home/"><img src="V_BADGE" alt="Visits"></a>
+            <img src="https://img.shields.io/badge/github-repo-2facf9?logo=github" alt="GitHub Repository">
+        </a> 
+        <a href="https://github.com/scr-randomizer/home/" target="_blank" rel="noopener">
+            <img id="visits-badge" src="V_BADGE" alt="Visits" style="display: inline-block; vertical-align: middle;">
+        </a>
     </div>
-
-    <!-- this is a multi line comment to hide the script from older browsers that do not support JavaScript. 
-     The actual JavaScript code will be executed by modern browsers, while older browsers will ignore it. -->
 
     <script data-goatcounter="ANALYTICS_SRC" async src="//gc.zgo.at/count.js"></script>
 
-
-    <!-- ===== Set Site Status ===== -->
-
-    <!-- LIVE: New status: update site status to online
-         DOWN: New status: update site status to maintenance -->
+    <!-- ===== Dynamic Gist Site Status Check ===== -->
     <script>
+    (function() {
+        var appView = document.getElementById('live-view');
+        var maintenanceView = document.getElementById('maint');
+        var frame = document.getElementById('gateway');
+        var visitsBadge = document.getElementById('visits-badge');
 
-    var live = false;
+        var STATUS_URL = "GIST_STATUS_URL";
 
-    
+        function setDisplay(isLive) {
+            if (isLive) {
+                appView.style.display = 'block';
+                maintenanceView.style.display = 'none';
+                if (frame.src === "about:blank" || !frame.src) {
+                    frame.src = frame.getAttribute('data-src');
+                }
+            } else {
+                appView.style.display = 'none';
+                maintenanceView.style.display = 'block';
+                frame.src = "about:blank";
+            }
 
-    var appView = document.getElementById('live-view');
-    var maintenanceView = document.getElementById('maint');
-    var frame = document.getElementById('gateway');
+            // Keep Visits badge visible in maintenance mode
+            if (visitsBadge) {
+                visitsBadge.style.display = 'inline-block';
+            }
+        }
 
-    window.onload = function() {
+        // Run immediately on page load
         if (window.self !== window.top) {
-            return; 
+            return;
         }
-        if (live) {
-            appView.style.display = 'block';
-            maintenanceView.style.display = 'none';
-        } else {
-            appView.style.display = 'none';
-            maintenanceView.style.display = 'block';
-            frame.src = "about:blank";
+
+        // If status URL wasn't injected during build, default safely
+        if (!STATUS_URL || !STATUS_URL.startsWith("http")) {
+            setDisplay(true);
+            return;
         }
-    }   
+
+        fetch(STATUS_URL + "?t=" + Date.now(), { cache: "no-store" })
+            .then(function(res) {
+                if (!res.ok) throw new Error("Status endpoint HTTP " + res.status);
+                return res.json();
+            })
+            .then(function(data) {
+                setDisplay(Boolean(data.live));
+            })
+            .catch(function(err) {
+                console.warn("Status check failed, defaulting to online:", err);
+                setDisplay(true);
+            });
+    })();
     </script>
 </body>
 </html>
-
-

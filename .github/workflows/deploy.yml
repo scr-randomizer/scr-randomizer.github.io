@@ -11,8 +11,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: pages-deployment
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -26,30 +26,40 @@ jobs:
           EMBED: ${{ secrets.EMBED_SRC }}
           BADGE: ${{ secrets.V_BADGE }}
           ANALYTICS: ${{ secrets.ANALYTICS_SRC }}
+          GIST: ${{ secrets.GIST_ID }}
         run: |
-          # 1. Strict assertion: Fail build immediately if secrets are empty
-          if [ -z "$EMBED" ] || [ -z "$BADGE" ] || [ -z "$ANALYTICS" ]; then
-            echo "::error ::One or more secrets (EMBED_SRC, V_BADGE, ANALYTICS_SRC) are empty or not accessible!"
+          # 1. Assert secrets are non-empty
+          if [ -z "$EMBED" ] || [ -z "$BADGE" ] || [ -z "$ANALYTICS" ] || [ -z "$GIST" ]; then
+            echo "::error ::One or more secrets (EMBED_SRC, V_BADGE, ANALYTICS_SRC, GIST_ID) are missing or empty!"
             exit 1
           fi
 
-          # 2. Inject values into index.html
-          perl -pi -e 's|EMBED_PLACEHOLDER|$ENV{EMBED}|g' index.html
-          perl -pi -e 's|V_BADGE|$ENV{BADGE}|g' index.html
-          perl -pi -e 's|ANALYTICS_SRC|$ENV{ANALYTICS}|g' index.html
+          # 2. Stage distribution bundle
+          rm -rf dist
+          mkdir -p dist
+          cp -r assets styles.css index.html dist/
+          touch dist/.nojekyll
 
-          # 3. Copy 404 handler
           if [ -f ".github/src/404.html" ]; then
-            cp .github/src/404.html ./404.html
+            cp .github/src/404.html dist/404.html
           fi
 
-          # 4. Verify replacement succeeded
-          if grep -q "EMBED_PLACEHOLDER" index.html; then
-            echo "::error ::Replacement failed: EMBED_PLACEHOLDER is still present in index.html"
+          # 3. Export raw Gist endpoint
+          export GIST_FULL_URL="https://gist.githubusercontent.com/${{ github.repository_owner }}/${GIST}/raw/status.json"
+
+          # 4. Strict environment-variable injection
+          perl -pi -e 's|EMBED_PLACEHOLDER|$ENV{EMBED}|g' dist/index.html
+          perl -pi -e 's|V_BADGE|$ENV{BADGE}|g' dist/index.html
+          perl -pi -e 's|ANALYTICS_SRC|$ENV{ANALYTICS}|g' dist/index.html
+          perl -pi -e 's|GIST_STATUS_URL|$ENV{GIST_FULL_URL}|g' dist/index.html
+
+          # 5. Fail the build if any placeholder survived
+          if grep -E "EMBED_PLACEHOLDER|V_BADGE|ANALYTICS_SRC|GIST_STATUS_URL" dist/index.html; then
+            echo "::error ::Replacement failed! A placeholder token is still present in dist/index.html."
             exit 1
           fi
 
-          echo "=== INJECTION SUCCESSFUL ==="
+          echo "=== Build and Injection Completed Successfully ==="
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -57,7 +67,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'dist'
 
   deploy:
     needs: build
